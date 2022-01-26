@@ -48,26 +48,19 @@ elif computer_choice == 2:
     print(scissors)
 
 # Determine winner.
+draw = (choice == computer_choice)
 player_wins = False
-draw = False
 if choice == 0:
     # Player chose Rock. Now he can only win if the 
     # computer chooses Scissors.
     if computer_choice == 2:
         player_wins = True
-    elif computer_choice == 0:
-        draw = True
-
 elif choice == 1:
     if computer_choice == 1:
         draw = True
-    elif computer_choice == 0:
-        player_wins = True
 elif choice == 2:
     if computer_choice == 1:
         player_wins = True
-    elif computer_choice == 2:
-        draw = True
 
 # Display output.
 if draw:
