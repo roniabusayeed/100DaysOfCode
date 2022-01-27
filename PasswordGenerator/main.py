@@ -34,4 +34,4 @@ random.shuffle(password_as_list)
 password = "".join(password_as_list)
 
 # Display the password.
-print(password)
+print(f"Your password: {password}")
