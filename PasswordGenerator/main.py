@@ -17,15 +17,18 @@ nr_numbers = int(input(f"How many numbers would you like?\n"))
 #e.g. 4 letter, 2 symbol, 2 number = g^2jk8&P
 
 # Sample letters, numbers and symbols.
-pass_letters = random.sample(letters, nr_letters)
-pass_numbers = random.sample(numbers, nr_numbers)
-pass_symbols = random.sample(symbols, nr_symbols)
+pass_letters = []
+pass_numbers = []
+pass_symbols = []
+for i in range(nr_letters):
+    pass_letters += random.choice(letters)
+for i in range(nr_numbers):
+    pass_numbers += random.choice(numbers)
+for i in range(nr_symbols):
+    pass_symbols += random.choice(symbols)
 
-# Add letter, numbers and symbols to a single list.
-password_as_list = []
-password_as_list.extend(pass_letters)
-password_as_list.extend(pass_numbers)
-password_as_list.extend(pass_symbols)
+# Combine letters, numbers and symbols selected for password.
+password_as_list = pass_letters + pass_numbers + pass_symbols
 
 # Shuffle the list of characters.
 random.shuffle(password_as_list)
