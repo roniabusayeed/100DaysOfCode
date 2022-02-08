@@ -1,5 +1,6 @@
 import random
 import os
+from art import logo
 
 
 def clear_screen():
@@ -84,6 +85,7 @@ def play_game():
     print(f"    Computer's final hand: {computer_cards}, final score: {computer_score}")
     print(compare(user_score, computer_score))
 
+print(logo)
 while input("Do you want to play a game of Blackjack? Type 'y' or 'n': ") == 'y':
     clear_screen()
     play_game()
