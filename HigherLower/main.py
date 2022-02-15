@@ -11,6 +11,11 @@ def format_data(data):
     """Returns a formatted string version of data"""
     return f"{data['name']}, a {data['description']} from {data['country']}"
 
+def check_answer(guess, a_follower_count, b_follower_count):
+    """Take the user guess and follower count and return if they got it right"""
+    return guess == 'a' and a_follower_count > b_follower_count\
+        or guess == 'b' and a_follower_count < b_follower_count
+
 for i in range(len(data) - 1):
     os.system('cls' if os.name == 'nt' else 'clear')
     print(logo)
@@ -26,9 +31,8 @@ for i in range(len(data) - 1):
     answer = input("Who has more follower? Type 'A' or 'B': ").lower()
     
     # Check correctness.
-    if answer == 'a' and data[i]['follower_count'] > data[i + 1]['follower_count'] or answer == 'b' and data[i]['follower_count'] < data[i + 1]['follower_count']:
+    if check_answer(answer, data[i]['follower_count'], data[i+1]['follower_count']):
         score += 1
-
     else:
         break
 
