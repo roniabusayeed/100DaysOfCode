@@ -7,6 +7,10 @@ import os
 random.shuffle(data)
 score = 0
 
+def format_data(data):
+    """Returns a formatted string version of data"""
+    return f"{data['name']}, a {data['description']} from {data['country']}"
+
 for i in range(len(data) - 1):
     os.system('cls' if os.name == 'nt' else 'clear')
     print(logo)
@@ -14,10 +18,10 @@ for i in range(len(data) - 1):
     if (not i == 0):
         print(f"You're right! Current score: {score}")
 
-    print(f"Compare A: {data[i]['name']}, a {data[i]['description']} from {data[i]['country']}")
+    print(f"Compare A: {format_data(data[i])}")
     print(f"Follower count: {data[i]['follower_count']}")
     print(vs)
-    print(f"Against B: {data[i+1]['name']}, a {data[i]['description']} from {data[i]['country']}")
+    print(f"Against B: {format_data(data[i + 1])}")
     
     answer = input("Who has more follower? Type 'A' or 'B': ").lower()
     
