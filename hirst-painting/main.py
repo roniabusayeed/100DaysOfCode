@@ -7,7 +7,8 @@ import random
 # Extract rgb colors from image.
 colors = colorgram.extract("image.jpg", 20)
 threshold = 0.7  # Assuming background color will occupy more than 70%
-rgb_colors = [(color.rgb.r, color.rgb.g, color.rgb.b) for color in colors if color.proportion < threshold]
+rgb_colors = [(color.rgb.r, color.rgb.g, color.rgb.b) for color
+              in colors if color.proportion < threshold]
 
 # Configure our turtle.
 turtle.colormode(255)
@@ -15,7 +16,6 @@ brush = Turtle()
 brush.speed("fastest")
 brush.hideturtle()
 brush.penup()
-
 
 # Configure our paint.
 HORIZONTAL_DOTS = 10
@@ -32,6 +32,8 @@ for row in range(HORIZONTAL_DOTS):
         brush.setx(column * PACE + x_offset)
         brush.dot(DOT_SIZE, random.choice(rgb_colors))
 
+# Save output to a file.
+brush.getscreen().getcanvas().postscript(file="output.eps")
 
 # Wait for click to exit.
 screen = Screen()
