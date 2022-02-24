@@ -20,6 +20,10 @@ class Snake:
             segment.setx(STARTING_POSITION_X - SEGMENT_WIDTH * i)
             self.segments.append(segment)
 
+    def head(self):
+        """Returns the head of the snake (A Turtle object)"""
+        return self.segments[0]
+
     def move(self):
         """Moves the snake forward one step (snake.SEGMENT_WIDTH)"""
 
@@ -28,7 +32,7 @@ class Snake:
             self.segments[i].setposition(self.segments[i - 1].position())
 
         # Move the head one step forward.
-        self.segments[0].forward(SEGMENT_WIDTH)
+        self.segments[0].forward(SEGMENT_WIDTH * .75)
 
     def up(self):
         if not self.segments[0].heading() == DOWN:

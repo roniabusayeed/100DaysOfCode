@@ -1,6 +1,7 @@
-from turtle import Turtle, Screen
+from turtle import Screen
 import time
 from snake import Snake
+from food import Food
 
 # Set up the screen.
 screen = Screen()
@@ -11,6 +12,9 @@ screen.tracer(0)
 
 # Crete a snake.
 snake = Snake()
+
+# Create food.
+food = Food()
 
 # Listen for navigation key presses.
 screen.listen()
@@ -23,7 +27,14 @@ screen.onkey(fun=snake.right, key="Right")
 game_is_on = True
 while game_is_on:
     screen.update()  # Perform a screen update only when all the segments are moved.
-    time.sleep(.3)  # The make the snake move at a reasonable speed.
+    time.sleep(.05)  # The make the snake move at a reasonable speed.
+
+    # Detect collision with food.
+    if snake.head().distance(food) < 15:
+        # food eaten.
+        print("Nom Nom Nom!")
+        # Move the food to a new place.
+        food.refresh()
 
     snake.move()
 
