@@ -31,19 +31,27 @@ score_board = ScoreBoard()
 
 # Move the snake.
 game_is_on = True
-while game_is_on and score_board.score < 4:
+while game_is_on:
     screen.update()  # Perform a screen update only when all the segments are moved.
-    time.sleep(.05)  # The make the snake move at a reasonable speed.
+    time.sleep(.05)  # Make the snake move at a reasonable speed.
 
     # Detect collision with food.
     if snake.head().distance(food) < 15:
-        # food eaten.
-        print("Nom Nom Nom!")
         # Move the food to a new place.
         food.refresh()
+
         # Update score.
         score_board.increase_score()
         score_board.display()
+
+        # Increase size of the snake by one segment.
+        snake.extend()
+
+    # Detect collision with the wall.
+    if snake.head().xcor() > 280 or snake.head().xcor() < -280 or\
+            snake.head().ycor() > 280 or snake.head().ycor() < -280:
+        score_board.game_over()
+        game_is_on = False
 
     snake.move()
 
