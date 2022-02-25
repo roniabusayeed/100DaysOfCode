@@ -33,7 +33,7 @@ score_board = ScoreBoard()
 game_is_on = True
 while game_is_on:
     screen.update()  # Perform a screen update only when all the segments are moved.
-    time.sleep(.05)  # Make the snake move at a reasonable speed.
+    time.sleep(.1)  # Make the snake move at a reasonable speed.
 
     # Detect collision with food.
     if snake.head().distance(food) < 15:
@@ -52,6 +52,14 @@ while game_is_on:
             snake.head().ycor() > 280 or snake.head().ycor() < -280:
         score_board.game_over()
         game_is_on = False
+
+    # Detect collision with tail.
+    # If the head collides with any segment in the tail (essentially, rest of the snake),
+    # trigger game over sequence.
+    for segment in snake.segments[1:]:
+        if snake.head().distance(segment) < 10:
+            game_is_on = False
+            score_board.game_over()
 
     snake.move()
 
