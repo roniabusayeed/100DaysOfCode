@@ -16,6 +16,12 @@ class Ball(Turtle):
         self.setx(self.xcor() + self.x_move)
         self.sety(self.ycor() + self.y_move)
 
-    def bounce(self):
+    def bounce_y(self):
+        """Bounce the ball vertically"""
         self.y_move *= -1  # Flip the amount by which y coordinate
+        # is incremented/decremented.
+
+    def bounce_x(self):
+        """Bounce the ball horizontally"""
+        self.x_move *= -1  # Flip the amount by which x coordinate
         # is incremented/decremented.

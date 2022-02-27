@@ -32,7 +32,15 @@ while game_is_on:
 
     # Detect collision with the ceiling and the floor.
     if ball.ycor() >= 300 or ball.ycor() <= -300:
-        ball.bounce()
+        ball.bounce_y()
+
+    # Detect collision with the paddles.
+    right_wall = right_paddle.xcor() - 10
+    left_wall = left_paddle.xcor() + 10
+    threshold = 50
+    if ball.distance(right_paddle) < threshold and ball.xcor() > right_wall \
+            or ball.distance(left_paddle) < threshold and ball.xcor() < left_wall:
+        ball.bounce_x()
 
     ball.move()
 
