@@ -29,6 +29,11 @@ game_is_on = True
 while game_is_on:
     time.sleep(0.05)
     screen.update()
+
+    # Detect collision with the ceiling and the floor.
+    if ball.ycor() >= 300 or ball.ycor() <= -300:
+        ball.bounce()
+
     ball.move()
 
 # Exit.
