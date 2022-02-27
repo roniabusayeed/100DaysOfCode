@@ -35,12 +35,22 @@ while game_is_on:
         ball.bounce_y()
 
     # Detect collision with the paddles.
-    right_wall = right_paddle.xcor() - 10
-    left_wall = left_paddle.xcor() + 10
+    right_wall = right_paddle.xcor() - 20
+    left_wall = left_paddle.xcor() + 20
     threshold = 50
     if ball.distance(right_paddle) < threshold and ball.xcor() > right_wall \
             or ball.distance(left_paddle) < threshold and ball.xcor() < left_wall:
         ball.bounce_x()
+
+    # Detect if the ball goes out of bounds.
+    if ball.xcor() > 400:
+        # The ball went off the right side.
+        # In next iteration the ball should move towards the left paddle.
+        ball.refresh(right=False)
+    elif ball.xcor() < -400:
+        # The ball went off the left side.
+        # In the next iteration the ball should move towards the right side.
+        ball.refresh(right=True)
 
     ball.move()
 

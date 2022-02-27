@@ -25,3 +25,13 @@ class Ball(Turtle):
         """Bounce the ball horizontally"""
         self.x_move *= -1  # Flip the amount by which x coordinate
         # is incremented/decremented.
+
+    def refresh(self, right=True):
+        """Re-centers the ball and sets the direction towards right(by default) or left
+         if right=False"""
+        self.goto(0, 0)
+        if right:
+            self.x_move = abs(self.x_move)
+        else:
+            self.x_move = -abs(self.x_move)
+        self.y_move = abs(self.y_move)
