@@ -1,6 +1,10 @@
 from turtle import Turtle
 
 
+DEFAULT_X_MOVE = 5
+DEFAULT_Y_MOVE = 5
+
+
 class Ball(Turtle):
 
     def __init__(self):
@@ -8,8 +12,8 @@ class Ball(Turtle):
         super().__init__("circle")
         self.color("white")
         self.penup()
-        self.x_move = 10
-        self.y_move = 10
+        self.x_move = DEFAULT_X_MOVE
+        self.y_move = DEFAULT_Y_MOVE
 
     def move(self):
         """Increments/Decrements x and y coordinates of the ball by an amount"""
@@ -31,7 +35,12 @@ class Ball(Turtle):
          if right=False"""
         self.goto(0, 0)
         if right:
-            self.x_move = abs(self.x_move)
+            self.x_move = DEFAULT_X_MOVE
         else:
-            self.x_move = -abs(self.x_move)
-        self.y_move = abs(self.y_move)
+            self.x_move = -DEFAULT_X_MOVE
+        self.y_move = DEFAULT_Y_MOVE
+
+    def speedup(self):
+        """Increases the speed of the ball by 10 percent"""
+        self.x_move *= 1.1
+        self.y_move *= 1.1

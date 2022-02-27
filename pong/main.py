@@ -45,6 +45,7 @@ while game_is_on:
     if ball.distance(right_paddle) < threshold and ball.xcor() > right_wall \
             or ball.distance(left_paddle) < threshold and ball.xcor() < left_wall:
         ball.bounce_x()
+        ball.speedup()  # Speed up the ball every time a paddle hits it.
 
     # Detect if the ball goes out of bounds.
     if ball.xcor() > 400:
