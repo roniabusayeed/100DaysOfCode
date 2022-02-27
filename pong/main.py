@@ -2,6 +2,7 @@ from turtle import Screen
 from paddle import Paddle
 from ball import Ball
 import time
+from score_board import ScoreBoard
 
 # Setup game screen.
 screen = Screen()
@@ -16,6 +17,9 @@ right_paddle = Paddle(x=350, y=0)
 
 # Create the ball.
 ball = Ball()
+
+# Create scoreboard.
+scoreboard = ScoreBoard()
 
 # Make the paddles move up and down with key presses.
 screen.listen()
@@ -45,10 +49,14 @@ while game_is_on:
     # Detect if the ball goes out of bounds.
     if ball.xcor() > 400:
         # The ball went off the right side.
+        # The point goes to the left player.
+        scoreboard.increase_left_score()
         # In next iteration the ball should move towards the left paddle.
         ball.refresh(right=False)
     elif ball.xcor() < -400:
         # The ball went off the left side.
+        # The point goes to the right player.
+        scoreboard.increase_right_score()
         # In the next iteration the ball should move towards the right side.
         ball.refresh(right=True)
 
