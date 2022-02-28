@@ -1,5 +1,6 @@
 from turtle import Turtle
 import random
+import math
 
 COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]
 STARTING_MOVE_DISTANCE = 5
@@ -24,10 +25,16 @@ class CarManager:
     def __init__(self):
         self.all_cars = []
         self.move_amount = STARTING_MOVE_DISTANCE
+        self.car_creation_probability_incrementer = .1
+
+    def should_create_a_car(self):
+        """Returns if a car should be created based on probability (which is increased every level)"""
+        probability = math.tanh(self.car_creation_probability_incrementer)
+        return random.random() < probability
 
     def create_car(self):
-        """Adds a new car to the list with a probability of 1/6"""
-        if random.randint(1, 6) == 1:
+        """Adds a new car to the list with based on probability (which is increased every level)"""
+        if self.should_create_a_car():
             self.all_cars.append(Car())
 
     def move_cars(self):
@@ -38,3 +45,4 @@ class CarManager:
     def level_up(self):
         """Speeds up the cars by car_manager.MOVE_INCREMENT"""
         self.move_amount += MOVE_INCREMENT
+        self.car_creation_probability_incrementer += .1
