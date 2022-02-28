@@ -17,7 +17,11 @@ class ScoreBoard(Turtle):
         self.setposition(TOP_POSITION)  # Put the turtle to the top of the screen so that it write there.
         self.color("white")  # The turtle should write in white.
 
-        self.high_score = 0
+        try:
+            with open("high_score.txt", "r") as high_score_file:
+                self.high_score = int(high_score_file.read())
+        except FileNotFoundError:
+            self.high_score = 0
 
         self.update_scoreboard()  # Display initial score (=0)
 
@@ -33,5 +37,10 @@ class ScoreBoard(Turtle):
     def reset(self):
         if self.score > self.high_score:
             self.high_score = self.score
+            self.save_high_score()  # Write high score file.
         self.score = 0
         self.update_scoreboard()
+
+    def save_high_score(self):
+        with open("high_score.txt", "w") as high_score_file:
+            high_score_file.write(f"{self.high_score}")
