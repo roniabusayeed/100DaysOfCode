@@ -10,7 +10,12 @@ screen.tracer(0)
 
 # Create the player.
 player = Player()
+
+# Create car manager.
 car_manager = CarManager()
+
+# Create the scoreboard.
+scoreboard = Scoreboard()
 
 # Move the player forward upon pressing the 'up' key.
 screen.listen()
@@ -32,6 +37,7 @@ while game_is_on:
     for car in car_manager.all_cars:
         if car.distance(player) < 20:
             game_is_on = False
+            scoreboard.game_over()  # Display game over message.
 
     # Detect if player has reached the finish line.
     if player.at_finish_line():
@@ -40,6 +46,10 @@ while game_is_on:
 
         # Speed up the cars because the player is at the next level.
         car_manager.level_up()
+
+        # Update level/score.
+        scoreboard.level_up()
+        scoreboard.update_scoreboard()
 
 
 screen.exitonclick()
