@@ -10,6 +10,7 @@ screen.tracer(0)
 
 # Create the player.
 player = Player()
+car_manager = CarManager()
 
 # Move the player forward upon pressing the 'up' key.
 screen.listen()
@@ -20,3 +21,9 @@ game_is_on = True
 while game_is_on:
     time.sleep(0.1)
     screen.update()
+
+    # Probably create a new car.
+    car_manager.create_car()
+
+    # Move all the generated cars.
+    car_manager.move_cars()
