@@ -17,21 +17,21 @@ class ScoreBoard(Turtle):
         self.setposition(TOP_POSITION)  # Put the turtle to the top of the screen so that it write there.
         self.color("white")  # The turtle should write in white.
 
-        self.display()  # Display initial score (=0)
+        self.high_score = 0
 
-    def display(self):
-        """"Display current score at the top of the screen"""
+        self.update_scoreboard()  # Display initial score (=0)
+
+    def update_scoreboard(self):
+        """"Display current score and high score at the top of the screen"""
         self.clear()  # Clear the previous score drawing from screen before drawing new score.
-        self.write(f"Score: {self.score}", align=ALIGNMENT, font=FONT)
+        self.write(f"Score: {self.score} High Score: {self.high_score}", align=ALIGNMENT, font=FONT)
 
     def increase_score(self):
         """"Increases the score by 1"""
         self.score += 1
 
-    def game_over(self):
-        """Writes game over at the center of the screen."""
-        self.setposition(x=0, y=0)  # Goto the center of the screen first.
-        self.write("Game over", align=ALIGNMENT, font=FONT)
-        self.setposition(TOP_POSITION)  # Go back to the default top position of the scoreboard in case the user wants
-        # to further print some score.
-
+    def reset(self):
+        if self.score > self.high_score:
+            self.high_score = self.score
+        self.score = 0
+        self.update_scoreboard()

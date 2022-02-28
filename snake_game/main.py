@@ -42,7 +42,7 @@ while game_is_on:
 
         # Update score.
         score_board.increase_score()
-        score_board.display()
+        score_board.update_scoreboard()
 
         # Increase size of the snake by one segment.
         snake.extend()
@@ -50,16 +50,18 @@ while game_is_on:
     # Detect collision with the wall.
     if snake.head().xcor() > 280 or snake.head().xcor() < -280 or\
             snake.head().ycor() > 280 or snake.head().ycor() < -280:
-        score_board.game_over()
-        game_is_on = False
+        # game_is_on = False
+        snake.reset()
+        score_board.reset()
 
     # Detect collision with tail.
     # If the head collides with any segment in the tail (essentially, rest of the snake),
     # trigger game over sequence.
     for segment in snake.segments[1:]:
         if snake.head().distance(segment) < 10:
-            game_is_on = False
-            score_board.game_over()
+            # game_is_on = False
+            snake.reset()
+            score_board.reset()
 
     snake.move()
 

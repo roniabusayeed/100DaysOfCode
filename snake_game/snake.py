@@ -55,6 +55,13 @@ class Snake:
         # Add a new segment at the position of the last snake segment.
         self.add_segment(self.segments[-1].position())
 
+    def reset(self):
+        """Resets the snake to it's initial position, direction and length"""
+        for segment in self.segments:
+            segment.setposition(1000, 1000)  # Just get the segments (Turtles) outside the game screen.
+        self.segments.clear()
+        self.__init__()
+
     def up(self):
         if not self.segments[0].heading() == DOWN:
             self.segments[0].setheading(UP)
