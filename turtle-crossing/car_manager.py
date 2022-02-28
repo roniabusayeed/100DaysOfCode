@@ -18,15 +18,12 @@ class Car(Turtle):
         random_y = random.randint(-250, 250)
         self.goto(x=300, y=random_y)
 
-    def move(self):
-        """Moves a car to the left of the screen by car_manager.STARTING_MOVE_DISTANCE"""
-        self.forward(STARTING_MOVE_DISTANCE)
-
 
 class CarManager:
 
     def __init__(self):
         self.all_cars = []
+        self.move_amount = STARTING_MOVE_DISTANCE
 
     def create_car(self):
         """Adds a new car to the list with a probability of 1/6"""
@@ -36,4 +33,8 @@ class CarManager:
     def move_cars(self):
         """Move all cars to the left of the screen by car_manager.STARTING_MOVE_DISTANCE"""
         for car in self.all_cars:
-            car.move()
+            car.forward(self.move_amount)
+
+    def level_up(self):
+        """Speeds up the cars by car_manager.MOVE_INCREMENT"""
+        self.move_amount += MOVE_INCREMENT

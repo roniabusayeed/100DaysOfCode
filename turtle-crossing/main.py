@@ -38,5 +38,8 @@ while game_is_on:
         # Take the player back to starting position for next level.
         player.goto_start()
 
+        # Speed up the cars because the player is at the next level.
+        car_manager.level_up()
+
 
 screen.exitonclick()
