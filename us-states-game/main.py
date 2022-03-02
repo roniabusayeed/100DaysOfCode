@@ -19,7 +19,6 @@ writer = WriterTurtle()
 correct_guesses = []  # Names of the states correctly guessed by user.
 
 # Program loop.
-should_continue = True
 while len(correct_guesses) < 50:
 
     answer_state = screen.textinput(title=f"{len(correct_guesses)} /50 States Correct",
@@ -39,6 +38,14 @@ while len(correct_guesses) < 50:
         state_data = states_data[states_data.state == answer_state]
         coordinates = (int(state_data.x), int(state_data.y))
         writer.write_at_location(answer_state, coordinates)
+
+# Find out missing states and save them to a csv file.
+missing_states = []
+for state in states:
+    if state not in correct_guesses:
+        missing_states.append(state)
+new_data = pandas.DataFrame(missing_states)
+new_data.to_csv("states_to_learn.csv")
 
 print(f"You made {len(correct_guesses)} correct guesses!")
 turtle.mainloop()
