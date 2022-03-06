@@ -5,13 +5,23 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 1
+WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 0
+CHECK_MARK = "✔"
+timer = None
 
 
 # ---------------------------- TIMER RESET ------------------------------- # 
+def reset_timer():
+    global timer_label
+    global reps
+    window.after_cancel(timer)
+    timer_label.config(text="Timer")
+    canvas.itemconfig(timer_text, text=f"00:00")
+    check_mark.config(text="")
+    reps = 0
 
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
@@ -40,9 +50,13 @@ def countdown(seconds):
     count_sec = f"0{count_sec}" if count_sec < 10 else count_sec
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
     if seconds > 0:
-        window.after(1000, countdown, seconds - 1)
+        global timer
+        timer = window.after(1000, countdown, seconds - 1)
     else:
         start_timer()
+        # Add a check mark for every two reps (work + break).
+        if reps % 2 == 0:
+            check_mark.config(text=f"{CHECK_MARK * (reps // 2)}")
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -69,10 +83,11 @@ start.config(command=start_timer)
 # Reset button.
 reset = tkinter.Button(text="Reset", highlightthickness=0)
 reset.grid(row=2, column=2)
+reset.config(command=reset_timer)
+
 
 # Checkmark.
-CHECK_MARK = "✔"
-check_mark = tkinter.Label(text=CHECK_MARK, bg=YELLOW, fg=GREEN, font=(FONT_NAME, 11, "bold"))
+check_mark = tkinter.Label(bg=YELLOW, fg=GREEN, font=(FONT_NAME, 11, "bold"))
 check_mark.grid(row=3, column=1)
 
 window.mainloop()
