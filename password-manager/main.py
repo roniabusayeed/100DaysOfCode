@@ -1,12 +1,36 @@
 import tkinter
 import tkinter.messagebox
-
+import random
+import pyperclip
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+           'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+           'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+SYMBOLS = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+
+def generate_password():
+    """Generates a random password and populates password entry"""
+    pass_letters = [random.choice(LETTERS) for _ in range(random.randint(8, 10))]
+    pass_digits = [random.choice(DIGITS) for _ in range(random.randint(2, 4))]
+    pass_symbols = [random.choice(SYMBOLS) for _ in range(random.randint(2, 4))]
+
+    password_characters = pass_letters + pass_digits + pass_symbols
+    random.shuffle(password_characters)
+
+    password = "".join(password_characters)
+
+    # Fill password entry with generated password.
+    password_entry.delete(0, tkinter.END)  # Clear existing password from entry.
+    password_entry.insert(0, password)     # Insert newly generated password.
+
+    # Copy password to the clipboard.
+    pyperclip.copy(password)
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
-
 def get_confirmation(website, email_or_username, password):
     message = f"These are the details:\nEmail/Username: {email_or_username}\nPassword: {password}\nIs it okay to save?"
     return tkinter.messagebox.askokcancel(title=website, message=message)
@@ -84,6 +108,7 @@ password_entry.grid(row=3, column=1)
 generate_password_button = tkinter.Button(text="Generate Password")
 generate_password_button.config(width=15)
 generate_password_button.grid(row=3, column=2)
+generate_password_button.config(command=generate_password)
 
 add_button = tkinter.Button(text="Add")
 add_button.config(width=46)
