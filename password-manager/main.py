@@ -18,6 +18,11 @@ def save_password():
     email_or_username = email_or_username_entry.get()
     password = password_entry.get()
 
+    # Input validation.
+    if len(website_name) == 0 or len(email_or_username) == 0 or len(password) == 0:
+        tkinter.messagebox.showerror(title="Error", message="You left some fields empty!")
+        return
+
     # Get confirmation.
     if get_confirmation(website_name, email_or_username, password):
         # Write entries to data file.
