@@ -32,9 +32,15 @@ website_entry = tkinter.Entry()
 website_entry.config(width=55)
 website_entry.grid(row=1, column=1, columnspan=2)
 
+# Make website entry in focus.
+website_entry.focus()
+
 email_or_username_entry = tkinter.Entry()
 email_or_username_entry.config(width=55)
 email_or_username_entry.grid(row=2, column=1, columnspan=2)
+
+# Pre-populate email field.
+email_or_username_entry.insert(tkinter.END, "roni.abusayeed@gmail.com")
 
 password_entry = tkinter.Entry()
 password_entry.config(width=35)
