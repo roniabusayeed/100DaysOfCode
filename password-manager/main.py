@@ -1,10 +1,40 @@
 import tkinter
+import tkinter.messagebox
+
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
+
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
+def get_confirmation(website, email_or_username, password):
+    message = f"These are the details:\nEmail/Username: {email_or_username}\nPassword: {password}\nIs it okay to save?"
+    return tkinter.messagebox.askokcancel(title=website, message=message)
+
+
+def save_password():
+    # Get hold of entries.
+    website_name = website_entry.get()
+    email_or_username = email_or_username_entry.get()
+    password = password_entry.get()
+
+    # Get confirmation.
+    if get_confirmation(website_name, email_or_username, password):
+        # Write entries to data file.
+        with open("data.txt", "a") as data_file:
+            data_file.write(f"{website_name} | {email_or_username} | {password}\n")
+
+        # Clear entries once they are added to file.
+        website_entry.delete(0, tkinter.END)
+        # email_or_username_entry.delete(0, tkinter.END)
+        password_entry.delete(0, tkinter.END)
+
+        # Put focus back to website entry.
+        website_entry.focus()
+
+
 # ---------------------------- UI SETUP ------------------------------- #
+
 
 # Setup window.
 window = tkinter.Tk()
@@ -53,5 +83,6 @@ generate_password_button.grid(row=3, column=2)
 add_button = tkinter.Button(text="Add")
 add_button.config(width=46)
 add_button.grid(row=4, column=1, columnspan=2)
+add_button.config(command=save_password)
 
 window.mainloop()
