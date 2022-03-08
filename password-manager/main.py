@@ -56,11 +56,15 @@ def save_password():
             "password": password
         }
     }
-    with open("data.json", "r") as data_file:
-        # Load current data into memory.
-        data = json.load(data_file)
-        # Update data with new data.
-        data.update(new_data)
+    try:
+        with open("data.json", "r") as data_file:
+            # Load current data into memory.
+            data = json.load(data_file)
+            # Update data with new data.
+            data.update(new_data)
+    except FileNotFoundError:
+        # The new data entry is the only data we've got.
+        data = new_data
 
     with open("data.json", "w") as data_file:
         # Write updated data back into data file.
