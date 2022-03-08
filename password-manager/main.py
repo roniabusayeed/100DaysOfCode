@@ -2,6 +2,7 @@ import tkinter
 import tkinter.messagebox
 import random
 import pyperclip
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
@@ -31,39 +32,49 @@ def generate_password():
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
-def get_confirmation(website, email_or_username, password):
-    message = f"These are the details:\nEmail/Username: {email_or_username}\nPassword: {password}\nIs it okay to save?"
+def get_confirmation(website, email, password):
+    """Prints a message box asking user if the email and passwords are okay for the given website"""
+    message = f"These are the details:\nEmail/Username: {email}\nPassword: {password}\nIs it okay to save?"
     return tkinter.messagebox.askokcancel(title=website, message=message)
 
 
 def save_password():
     # Get hold of entries.
-    website_name = website_entry.get()
-    email_or_username = email_or_username_entry.get()
+    website = website_entry.get()
+    email = email_or_username_entry.get()
     password = password_entry.get()
 
     # Input validation.
-    if len(website_name) == 0 or len(email_or_username) == 0 or len(password) == 0:
-        tkinter.messagebox.showerror(title="Error", message="You left some fields empty!")
-        return
+    if len(website) == 0 or len(email) == 0 or len(password) == 0:
+        tkinter.messagebox.showerror(title="Oops", message="You left some fields empty!")
+        return  # No need to continue further.
 
-    # Get confirmation.
-    if get_confirmation(website_name, email_or_username, password):
-        # Write entries to data file.
-        with open("data.txt", "a") as data_file:
-            data_file.write(f"{website_name} | {email_or_username} | {password}\n")
+    # Write entries to data file.
+    new_data = {
+        website: {
+            "email": email,
+            "password": password
+        }
+    }
+    with open("data.json", "r") as data_file:
+        # Load current data into memory.
+        data = json.load(data_file)
+        # Update data with new data.
+        data.update(new_data)
 
-        # Clear entries once they are added to file.
-        website_entry.delete(0, tkinter.END)
-        # email_or_username_entry.delete(0, tkinter.END)
-        password_entry.delete(0, tkinter.END)
+    with open("data.json", "w") as data_file:
+        # Write updated data back into data file.
+        json.dump(data, data_file, indent=4)
 
-        # Put focus back to website entry.
-        website_entry.focus()
+    # Clear entries once they are added to file.
+    website_entry.delete(0, tkinter.END)
+    password_entry.delete(0, tkinter.END)
+
+    # Put focus back to website entry.
+    website_entry.focus()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
-
 
 # Setup window.
 window = tkinter.Tk()
