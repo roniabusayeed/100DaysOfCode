@@ -78,6 +78,31 @@ def save_password():
     website_entry.focus()
 
 
+# ------------------------ Search password -----------------------------#
+def search():
+    """Searches for email and password associated with current website"""
+    website = website_entry.get()
+
+    # Load current data into memory.
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        data = {}
+
+    # Find credentials for current website in data.
+    credentials = data.get(website)
+    if credentials is not None:
+        email = credentials['email']
+        password = credentials['password']
+        tkinter.messagebox.showinfo(title=f"{website}", message=f"email: {email}\npassword: {password}")
+
+        # Copy password to clipboard.
+        pyperclip.copy(password)
+    else:
+        tkinter.messagebox.showinfo(title=f"{website}", message="Website not found!")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 # Setup window.
@@ -103,8 +128,8 @@ password_label.grid(row=3, column=0)
 
 # Setup input text fields and buttons.
 website_entry = tkinter.Entry()
-website_entry.config(width=55)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry.config(width=35)
+website_entry.grid(row=1, column=1)
 
 # Make website entry in focus.
 website_entry.focus()
@@ -129,5 +154,10 @@ add_button = tkinter.Button(text="Add")
 add_button.config(width=46)
 add_button.grid(row=4, column=1, columnspan=2)
 add_button.config(command=save_password)
+
+search_button = tkinter.Button(text="Search")
+search_button.config(width=15)
+search_button.grid(row=1, column=2)
+search_button.config(command=search)
 
 window.mainloop()
