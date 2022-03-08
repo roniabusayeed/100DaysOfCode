@@ -91,10 +91,9 @@ def search():
         data = {}
 
     # Find credentials for current website in data.
-    credentials = data.get(website)
-    if credentials is not None:
-        email = credentials['email']
-        password = credentials['password']
+    if website in data:
+        email = data[website]['email']
+        password = data[website]['password']
         tkinter.messagebox.showinfo(title=f"{website}", message=f"email: {email}\npassword: {password}")
 
         # Copy password to clipboard.
