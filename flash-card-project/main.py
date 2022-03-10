@@ -9,38 +9,60 @@ TITLE_FONT = ("Arial", 40, "italic")
 WORD_FONT = ("Arial", 60, "bold")
 
 # Load words/translation from file.
-data = pandas.read_csv("data/french_words.csv")
+
+# If there is a progress file (of fewer words) saved, load it;
+# otherwise, load the full list.
+try:
+    data = pandas.read_csv("data/words_to_learn.csv")
+except FileNotFoundError:
+    data = pandas.read_csv("data/french_words.csv")
+
 # dictionary = [{"French": row.French, "English": row.English} for _, row in data.iterrows()]
-dictionary = data.to_dict(orient="records")  # Achieves the same thing with DataFrame.to_dict(orient='records')
+# Achieves the same thing with DataFrame.to_dict(orient='records')
+dictionary = data.to_dict(orient="records")
 
 # Keep track of the previously scheduled delayed execution of flip card operation.
 previous_after_id = None
+
+# Keep track of current word/translation pair.
+current_word = None
+
+
+def is_known():
+    """Removes the current word from loaded dictionary so that it doesn't show up again"""
+    dictionary.remove(current_word)
+
+    # Save current dictionary.
+    pandas.DataFrame(dictionary).to_csv("data/words_to_learn.csv", index=False)
 
 
 def next_card():
     """Generates a new random French word/translation and populates the flashcard"""
     global previous_after_id
+    global current_word
     # Pick a random word/translation from dictionary.
-    word_translation_pair = random.choice(dictionary)
+    current_word = random.choice(dictionary)
 
     # Populate the flashcard.
     canvas.itemconfig(image, image=front_image)
-    french_word = word_translation_pair["French"]
+    french_word = current_word["French"]
     canvas.itemconfig(card_title, text="French", fill="black")
     canvas.itemconfig(card_word, text=french_word, fill="black")
 
-    # Flip the card after some delay.
+    # Invalidate previously scheduled delayed execution of flip card.
     if previous_after_id is not None:
         window.after_cancel(previous_after_id)
+
+    # Flip the card after some delay.
     delay_in_ms = 3000  # the card should flip after 3 seconds.
-    previous_after_id = window.after(delay_in_ms, flip_card, word_translation_pair["English"])
+    previous_after_id = window.after(delay_in_ms, flip_card)
 
 
-def flip_card(english_word):
+def flip_card():
     """Flips the card with a new image and English translation (parameter)"""
     canvas.itemconfig(image, image=back_image)
     canvas.itemconfig(card_title, text="English", fill="white")
-    canvas.itemconfig(card_word, text=english_word, fill="white")
+    canvas.itemconfig(card_word, text=current_word["English"], fill="white")
 
 
 # Setup UI
@@ -71,9 +93,10 @@ right_button = tkinter.Button()
 right_button_image = tkinter.PhotoImage(file="images/right.png")
 right_button.config(image=right_button_image, borderwidth=0, highlightthickness=0)
 right_button.grid(row=1, column=1)
-right_button.config(command=next_card)
+right_button.config(command=lambda: [is_known(), next_card()])
 
 # Display the first card upon startup.
 next_card()
 
+# Keep window visible.
 window.mainloop()
