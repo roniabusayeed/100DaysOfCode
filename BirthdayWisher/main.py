@@ -40,7 +40,7 @@ with open("sender_email_creds.json", "r") as sender_file:
 # If anyone has their birthday today, email them.
 birthdays_data = pandas.read_csv("contacts.csv")
 birthdays = birthdays_data.to_dict(orient="records")
-today = dt.datetime.now().date()
+today = dt.datetime.now()
 for birthday in birthdays:
     if birthday['month'] == today.month and birthday['day'] == today.day:
         message = create_message(sender['name'], birthday['name'])
